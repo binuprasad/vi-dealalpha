@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:videalalpha_task/controller/auth_controller.dart';
+import 'package:videalalpha_task/controller/home_provider.dart';
 import 'package:videalalpha_task/view/welcome_screen.dart';
 
 void main() async{
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=>AuthProvider())
+        ChangeNotifierProvider(create: (_)=>AuthProvider()),
+        ChangeNotifierProvider(create: (_)=>HomeProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

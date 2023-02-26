@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:videalalpha_task/controller/auth_controller.dart';
+import 'package:videalalpha_task/controller/home_provider.dart';
 import 'welcome_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
   Widget build(BuildContext context) {
-    final ap = Provider.of<AuthProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final homeProvider = Provider.of<HomeProvider>(context,listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              ap.userSignOut().then(
+              authProvider.userSignOut().then(
                     (value) => Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -50,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     backgroundColor: Colors.purple,
                     child: CircleAvatar(
                       backgroundColor: Colors.purple,
-                      backgroundImage: NetworkImage(ap.userModel.profilePic),
+                      backgroundImage: NetworkImage(authProvider.userModel.profilePic),
                       radius: 50,
                     ),
                   ),
@@ -72,15 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.32,
                               child: ElevatedButton(
-                                onPressed: () async {
-                                  var url =
-                                      Uri.parse("mailto:${ap.userModel.email}");
-
-                                  if (await canLaunchUrl(url)) {
-                                    await launchUrl(url);
-                                  } else {
-                                    throw 'Could not launch $url';
-                                  }
+                                onPressed: ()  {
+                                  homeProvider.navEmail(context);
                                 },
                                 child: const Text('Email'),
                               ),
@@ -88,12 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.32,
                               child: ElevatedButton(
-                                onPressed: () async {
-                                  final Uri launchUri = Uri(
-                                    scheme: 'tel',
-                                    path: ap.userModel.phoneNumber,
-                                  );
-                                  await launchUrl(launchUri);
+                                onPressed: ()  {
+                                  homeProvider.navPhone(context);
                                 },
                                 child: const Text('phone'),
                               ),
@@ -111,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Center(
                   child: FittedBox(
                     child: Text(
-                      ap.userModel.name,
+                      authProvider.userModel.name,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -119,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 10),
               Text(
-                ap.userModel.bio,
+                authProvider.userModel.bio,
                 style: const TextStyle(color: Colors.black54),
               ),
             ],

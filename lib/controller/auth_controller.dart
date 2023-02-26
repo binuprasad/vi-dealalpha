@@ -14,7 +14,6 @@ import '../model/auth_model.dart';
 import '../utils/utils.dart';
 
 class AuthProvider extends ChangeNotifier {
-
   bool isRegistered = false;
   bool _isSignedIn = false;
   bool get isSignedIn => _isSignedIn;
@@ -34,27 +33,26 @@ class AuthProvider extends ChangeNotifier {
   }
 
   //splash screen verification----------------
-   Timer verification(context) {
-    return Timer(const Duration(seconds: 3), ()async {
-     if (isSignedIn == true) {
-                      await getDataFromSP().whenComplete(
-                            () => Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomeScreen(),
-                              ),
-                            ),
-                          );
-                    } else {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const RegisterScreen(),
-                        ),
-                      );
-                    }
-   
-  });
+  Timer verification(context) {
+    return Timer(const Duration(seconds: 3), () async {
+      if (isSignedIn == true) {
+        await getDataFromSP().whenComplete(
+          () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            ),
+          ),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const RegisterScreen(),
+          ),
+        );
+      }
+    });
   }
 
   void checkSign() async {
@@ -73,7 +71,7 @@ class AuthProvider extends ChangeNotifier {
   // signin------------------------
   void signInWithPhone(BuildContext context, String phoneNumber) async {
     try {
-      isRegistered =false;
+      isRegistered = false;
       await _firebaseAuth.verifyPhoneNumber(
           phoneNumber: phoneNumber,
           verificationCompleted:
@@ -82,7 +80,7 @@ class AuthProvider extends ChangeNotifier {
             isRegistered = true;
           },
           verificationFailed: (error) {
-      isRegistered =false;
+            isRegistered = false;
 
             throw Exception(error.message);
           },
@@ -96,13 +94,13 @@ class AuthProvider extends ChangeNotifier {
           },
           codeAutoRetrievalTimeout: (verificationId) {});
     } on FirebaseAuthException catch (e) {
-      isRegistered =false;
+      isRegistered = false;
 
       showSnackBar(context, e.message.toString());
     }
   }
 
-  // verify otp
+  // verify otp-------------------
   void verifyOtp({
     required BuildContext context,
     required String verificationId,
@@ -132,15 +130,13 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  // DATABASE OPERTAIONS
+  // DATABASE OPERTAIONS---------------------------
   Future<bool> checkExistingUser() async {
     DocumentSnapshot snapshot =
         await _firebaseFirestore.collection("users").doc(_uid).get();
     if (snapshot.exists) {
-      print("USER EXISTS");
       return true;
     } else {
-      print("NEW USER");
       return false;
     }
   }
@@ -154,7 +150,7 @@ class AuthProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      // uploading image to firebase storage.
+      // uploading image to firebase storage------------
       await storeFileToStorage("profilePic/$_uid", profilePic).then((value) {
         userModel.profilePic = value;
         userModel.createdAt = DateTime.now().millisecondsSinceEpoch.toString();
@@ -163,7 +159,7 @@ class AuthProvider extends ChangeNotifier {
       });
       _userModel = userModel;
 
-      // uploading to database
+      // uploading to database---------------
       await _firebaseFirestore
           .collection("users")
           .doc(_uid)
@@ -206,7 +202,7 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
-  // STORING DATA LOCALLY
+  // STORING DATA LOCALLY-----------------
   Future saveUserDataToSP() async {
     SharedPreferences s = await SharedPreferences.getInstance();
     await s.setString("user_model", jsonEncode(userModel.toMap()));
@@ -227,4 +223,6 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
     s.clear();
   }
+
+  
 }
