@@ -23,6 +23,10 @@ class AuthProvider extends ChangeNotifier {
   String get uid => _uid!;
   UserModel? _userModel;
   UserModel get userModel => _userModel!;
+    File? image;
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final bioController = TextEditingController();
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -224,5 +228,41 @@ class AuthProvider extends ChangeNotifier {
     s.clear();
   }
 
-  
+  void storeData(BuildContext context) async {
+    // final ap = Provider.of<AuthProvider>(context, listen: false);
+    UserModel userModel = UserModel(
+      name: nameController.text.trim(),
+      email: emailController.text.trim(),
+      bio: bioController.text.trim(),
+      profilePic: "",
+      createdAt: "",
+      phoneNumber: "",
+      uid: "",
+    );
+    if (image != null) {
+     saveUserDataToFirebase(
+        context: context,
+        userModel: userModel,
+        profilePic: image!,
+        onSuccess: () {
+         saveUserDataToSP().then(
+                (value) => setSignIn().then(
+                      (value) => Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ),
+                          (route) => false),
+                    ),
+              );
+        },
+      );
+    } else {
+      showSnackBar(context, "Please upload your profile photo");
+    }
+  }
+  void selectImage(BuildContext context) async {
+    image = await pickImage(context);
+   notifyListeners();
+  }
 }
