@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onPressed: () {
                                   homeProvider.navPhone(context);
                                 },
-                                child: const Text('phone'),
+                                child: const Text('Phone'),
                               ),
                             )
                           ],
