@@ -17,7 +17,7 @@ class UserModel {
     required this.uid,
   });
 
-  // from map
+  // from map--------------------
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       name: map['name'] ?? '',
@@ -30,7 +30,7 @@ class UserModel {
     );
   }
 
-  // to map
+  // to map-----------------
   Map<String, dynamic> toMap() {
     return {
       "name": name,

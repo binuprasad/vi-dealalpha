@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:videalalpha_task/controller/network_connectivity_controller.dart';
 
 import '../controller/auth_controller.dart';
 import '../widgets/custom_button.dart';
@@ -14,7 +15,14 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController phoneController = TextEditingController();
-
+@override
+  void initState() {
+   
+    super.initState();
+    final networkController = Provider.of<NetworkController>(context, listen: false);
+    networkController.getConnectivity(context);
+   
+  }
   Country selectedCountry = Country(
     phoneCode: "91",
     countryCode: "IN",

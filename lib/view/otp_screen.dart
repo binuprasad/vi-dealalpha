@@ -7,6 +7,7 @@ import 'package:videalalpha_task/view/user_information_screen.dart';
 import 'package:videalalpha_task/widgets/custom_button.dart';
 
 import '../controller/auth_controller.dart';
+import '../controller/network_connectivity_controller.dart';
 
 class OtpScreen extends StatefulWidget {
   final String verificationId;
@@ -18,7 +19,14 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   String? otpCode;
+  @override
+  void initState() {
+    super.initState();
+    final networkController =
+        Provider.of<NetworkController>(context, listen: false);
 
+    networkController.getConnectivity(context);
+  }
   @override
   Widget build(BuildContext context) {
     final isLoading =
@@ -55,6 +63,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           ),
                           child: Image.asset(
                             "assets/otpimg.jpg",
+                            
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -167,7 +176,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         ),
                   );
             } else {
-              // new user
+              // new user-----------------------
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(

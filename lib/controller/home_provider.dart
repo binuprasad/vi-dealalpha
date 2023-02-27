@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:videalalpha_task/controller/auth_controller.dart';
 
 class HomeProvider extends ChangeNotifier {
+
   // -----------navigate to phone
  void navEmail(BuildContext context) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);

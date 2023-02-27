@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:videalalpha_task/controller/auth_controller.dart';
 import 'package:videalalpha_task/controller/home_provider.dart';
-import 'package:videalalpha_task/view/welcome_screen.dart';
+import 'package:videalalpha_task/controller/network_connectivity_controller.dart';
+import 'package:videalalpha_task/view/splash_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_)=>AuthProvider()),
         ChangeNotifierProvider(create: (_)=>HomeProvider()),
+        ChangeNotifierProvider(create: (_)=>NetworkController()),
+
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

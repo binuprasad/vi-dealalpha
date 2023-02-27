@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:videalalpha_task/controller/auth_controller.dart';
-import 'package:videalalpha_task/view/home_screen.dart';
-import 'package:videalalpha_task/view/register_screen.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

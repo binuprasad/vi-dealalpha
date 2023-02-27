@@ -1,9 +1,7 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:videalalpha_task/view/home_screen.dart';
 import '../controller/auth_controller.dart';
-import '../model/auth_model.dart';
+import '../controller/network_connectivity_controller.dart';
 import '../utils/utils.dart';
 import '../widgets/custom_button.dart';
 
@@ -15,7 +13,14 @@ class UserInfromationScreen extends StatefulWidget {
 }
 
 class _UserInfromationScreenState extends State<UserInfromationScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final networkController =
+        Provider.of<NetworkController>(context, listen: false);
 
+    networkController.getConnectivity(context);
+  }
   @override
   void dispose() {
     final authController = Provider.of<AuthProvider>(context, listen: false);
@@ -72,7 +77,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                         margin: const EdgeInsets.only(top: 20),
                         child: Column(
                           children: [
-                            // name field
+                            // name field----
                             textFeld(
                               hintText: "name",
                               icon: Icons.account_circle,
@@ -81,7 +86,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                               controller:authProvider. nameController,
                             ),
 
-                            // email
+                            // email---------
                             textFeld(
                               hintText: "email",
                               icon: Icons.email,
@@ -90,7 +95,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                               controller:authProvider. emailController,
                             ),
 
-                            // bio
+                            // bio-----------
                             textFeld(
                               hintText: "Enter your bio here...",
                               icon: Icons.edit,
