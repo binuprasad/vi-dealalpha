@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -115,16 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.3,
-                child: Center(
-                  child: FittedBox(
-                    child: Text(
-                      authProvider.userModel.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
+              Text(
+                authProvider.userModel.name,textAlign: TextAlign.start,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Text(
